@@ -9,18 +9,17 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+      
       - name: Setup Gradle
-        run: |
-          # Скачиваем файлы напрямую из официального репозитория
-          curl -L https://raw.githubusercontent.com -o gradlew
-          chmod +x gradlew
-          mkdir -p gradle/wrapper
-          curl -L https://raw.githubusercontent.com -o gradle/wrapper/gradle-wrapper.jar
-          curl -L https://raw.githubusercontent.com -o gradle/wrapper/gradle-wrapper.properties
-          # Создаем настройки проекта
-          echo "rootProject.name = 'minimap'" > settings.gradle
+        uses: gradle/actions/setup-gradle@v3
+
       - name: Build with Gradle
-        run: ./gradlew build --no-daemon
+        run: |
+          # Создаем обертку Gradle сами, раз ссылки не работают
+          gradle wrapper --gradle-version 8.10
+          chmod +x gradlew
+          ./gradlew build --no-daemon
+
       - uses: actions/upload-artifact@v4
         with:
           name: Minimap-Jar
