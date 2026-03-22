@@ -6,14 +6,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
-        with: { java-version: '21', distribution: 'temurin' }
-      - name: Build
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Setup Gradle
         run: |
-          curl -Lo gradlew https://raw.githubusercontent.com
-          mkdir -p gradle/wrapper
-          curl -Lo gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com
-          curl -Lo gradle/wrapper/gradle-wrapper.properties https://raw.githubusercontent.com
+          # Скачиваем файлы обертки напрямую из надежного источника
+          curl -L https://github.com -o gradlew
           chmod +x gradlew
-          ./gradlew build
+          mkdir -p gradle/wrapper
+          curl -L https://github.com -o gradle/wrapper/gradle-wrapper.jar
+          curl -L https://github.com -o gradle/wrapper/gradle-wrapper.properties
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
       - uses: actions/upload-artifact@v4
-        with: { name: Minimap-Jar, path: build/libs/*.jar }
+        with:
+          name: Minimap-Jar
+          path: build/libs/*.jar
