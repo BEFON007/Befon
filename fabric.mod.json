@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "id": "minimap",
+  "version": "1.0.0",
+  "name": "Lite Minimap",
+  "entrypoints": { "client": [ "net.example.minimap.MinimapMod" ] },
+  "depends": { "fabricloader": ">=0.16.0", "minecraft": "1.21.4", "java": ">=21" }
+}
