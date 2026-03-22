@@ -15,12 +15,15 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          # Создаем обертку Gradle сами, раз ссылки не работают
+          # Создаем файлы окружения, если их нет
+          echo "rootProject.name = 'minimap'" > settings.gradle
           gradle wrapper --gradle-version 8.10
           chmod +x gradlew
+          # Сборка мода
           ./gradlew build --no-daemon
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: Minimap-Jar
           path: build/libs/*.jar
