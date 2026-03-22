@@ -11,12 +11,14 @@ jobs:
           distribution: 'temurin'
       - name: Setup Gradle
         run: |
-          # Скачиваем файлы обертки напрямую из надежного источника
+          # Скачиваем официальную обертку напрямую
           curl -L https://github.com -o gradlew
           chmod +x gradlew
           mkdir -p gradle/wrapper
           curl -L https://github.com -o gradle/wrapper/gradle-wrapper.jar
           curl -L https://github.com -o gradle/wrapper/gradle-wrapper.properties
+          # Создаем пустой settings.gradle если его нет
+          echo "rootProject.name = 'minimap'" > settings.gradle
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
       - uses: actions/upload-artifact@v4
